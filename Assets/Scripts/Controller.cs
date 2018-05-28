@@ -6,7 +6,7 @@ public class Controller : MonoBehaviour {
 
 	public static Controller instance;
 	public List<Ball> balls;
-	public static float minVel = 0.67f;
+	public static float minVel = 0.2f;
 
 	void Start(){
 		instance = this;
@@ -18,15 +18,6 @@ public class Controller : MonoBehaviour {
 				b.rb.velocity = Vector3.zero;
 				b.rb.angularVelocity = Vector3.zero;
 			}
-		}
-	}
-
-	private void OnGUI() {
-		int yPos = 10;
-		foreach(Ball b in balls){
-			float prom = (Mathf.Abs(b.rb.velocity.x) + Mathf.Abs(b.rb.velocity.z))/2;
-			GUI.Label(new Rect(10, yPos, 300, 200), b.name + " " + prom);
-			yPos += 20;
 		}
 	}
 

@@ -9,7 +9,6 @@ public class MainBall : MonoBehaviour {
 	Rigidbody rb;
 	Vector3 preDir;
 	Vector3 dir;
-	[SerializeField]
 	public bool isMoving;
 
 	public GameObject handler;
@@ -27,23 +26,26 @@ public class MainBall : MonoBehaviour {
 	void Update () {
 
 		// Modify speed, value visible on slider
-		if(Input.GetKey(KeyCode.UpArrow)){
+		if(Input.GetKey(KeyCode.UpArrow) && !isMoving){
 			speed += rotationStrength;
-			speedSlider.value = Mathf.Clamp(speed, 5, 25);
-		}else if(Input.GetKey(KeyCode.DownArrow)){
+			speed = Mathf.Clamp(speed, 5, 25);
+			speedSlider.value = speed;
+		}else if(Input.GetKey(KeyCode.DownArrow) && !isMoving){
 			speed -= rotationStrength;
-			speedSlider.value = Mathf.Clamp(speed, 5, 25);
+			speed = Mathf.Clamp(speed, 5, 25);
+			speedSlider.value = speed;
 		}
 
 		// Rotate input for force direction
-		if(Input.GetKey(KeyCode.LeftArrow)){
+		if(Input.GetKey(KeyCode.LeftArrow) && !isMoving){
 			dir.z -= rotationStrength;
 			handler.transform.rotation = Quaternion.Euler(dir);
-		}else if(Input.GetKey(KeyCode.RightArrow)){
+		}else if(Input.GetKey(KeyCode.RightArrow) && !isMoving){
 			dir.z += rotationStrength;
 			handler.transform.rotation = Quaternion.Euler(dir);
 		}
 
+		// Debug purposes
 		if(Input.GetKeyDown(KeyCode.Q)){
 			rb.velocity = Vector3.zero;
 			rb.angularVelocity = Vector3.zero;
@@ -57,12 +59,13 @@ public class MainBall : MonoBehaviour {
 		if(Controller.CalcMinVel(rb.velocity)){
 			isMoving = false;
 			handler.SetActive(true);
-			// handler.transform.rotation = Quaternion.Euler(dir);
+			handler.transform.rotation = Quaternion.Euler(dir);
 		}
 		
+		preDir.y = 0;
 		if(Input.GetKeyDown(KeyCode.Space) && !isMoving){
 			isMoving = true;
-			Debug.Log("Is moving " + isMoving);
+			Debug.Log(preDir);
 			rb.AddForce(preDir * speed, ForceMode.Impulse);
 			handler.SetActive(false);
 		}
