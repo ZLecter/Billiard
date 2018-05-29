@@ -11,9 +11,24 @@ public class Ball : MonoBehaviour {
 	
 	void Start () {
 		rb = GetComponent<Rigidbody>();
-		// mov = new Vector3(Random.Range(0, 2f), 0, Random.Range(0, 2f));
-		// Debug.Log(mov);
-		// rb.AddForce(mov * speed);
+	}
+
+	private void Update() {
+		Debug.DrawLine(transform.position,
+						new Vector3(transform.position.x + rb.velocity.normalized.x,
+									0,
+									transform.position.z + rb.velocity.normalized.z),
+						Color.red);
+	}
+
+	private void OnCollisionEnter(Collision other){
+		if(other.gameObject.CompareTag("Ball"))
+			gameObject.GetComponent<Renderer>().material.SetColor("_FresnelColor" , Color.red);
+	}
+
+	private void OnCollisionExit(Collision other) {
+		if(other.gameObject.CompareTag("Ball"))
+			gameObject.GetComponent<Renderer>().material.SetColor("_FresnelColor" , Color.white);
 	}
 
 }
