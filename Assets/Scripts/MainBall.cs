@@ -65,7 +65,7 @@ public class MainBall : MonoBehaviour {
 		preDir.y = 0;
 		if(Input.GetKeyDown(KeyCode.Space) && !isMoving){
 			isMoving = true;
-			Debug.Log(preDir);
+			// Debug.Log(preDir);
 			rb.AddForce(preDir * speed, ForceMode.Impulse);
 			handler.SetActive(false);
 		}

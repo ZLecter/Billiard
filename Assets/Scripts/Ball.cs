@@ -8,6 +8,7 @@ public class Ball : MonoBehaviour {
 	public Rigidbody rb;
 	Vector3 mov;
 	public float speed = 0;
+	public GameObject particle;
 	
 	void Start () {
 		rb = GetComponent<Rigidbody>();
@@ -22,8 +23,10 @@ public class Ball : MonoBehaviour {
 	}
 
 	private void OnCollisionEnter(Collision other){
-		if(other.gameObject.CompareTag("Ball"))
+		if(other.gameObject.CompareTag("Ball")){
 			gameObject.GetComponent<Renderer>().material.SetColor("_FresnelColor" , Color.red);
+			Instantiate(particle, transform.position, transform.rotation, transform);
+		}
 	}
 
 	private void OnCollisionExit(Collision other) {
